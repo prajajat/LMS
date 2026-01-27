@@ -25,7 +25,7 @@ public class BookController {
                                                 @RequestParam(defaultValue = "10") int size,
                                                 @RequestParam(defaultValue = "title") String sortBy,
                                                 @RequestParam(defaultValue = "asc") String direction) {
-        return ResponseEntity.ok(bookService.getAllBooks(page, size, sortBy, direction));
+        return ResponseEntity.ok(bookService.getBook(page, size, sortBy, direction));
     }
     @GetMapping("/{Id}")
     public ResponseEntity<Book> getBook(@PathVariable Long Id) {
@@ -36,8 +36,8 @@ public class BookController {
         return ResponseEntity.ok(bookService.getFilteredBook(filterDTO));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Void> createUser(@RequestBody BookDTO dto) {
+    @PostMapping("/create")
+    public ResponseEntity<Void> createBook(@RequestBody BookDTO dto) {
         bookService.createBook(dto);
         return ResponseEntity.ok().build();
     }

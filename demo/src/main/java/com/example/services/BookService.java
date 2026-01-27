@@ -25,23 +25,30 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class BookService {
+public class BookService implements IBookservice{
     private final BookRepo bookRepo;
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    //Constructor Injection
     @Autowired
-    public BookService(BookRepo bookRepo,LibraryRepo libraryRepo)
+    public BookService(BookRepo bookRepo)
     {
         this.bookRepo=bookRepo;
-        this.libraryRepo=libraryRepo;
+
     }
+
+    //Field Injection
     @Autowired
     private LibraryRepo libraryRepo;
     @Autowired
     private DateUtils dateUtils;
 
-    public Page<Book> getAllBooks (int page, int size, String sortBy, String direction) {
+    //getbook have many forms
+
+
+    public Page<Book> getBook (int page, int size, String sortBy, String direction) {
         Sort sort = direction.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
@@ -50,10 +57,14 @@ public class BookService {
     }
     public Book getBook(Long Id)
     {
-        Book book =bookRepo.findById(Id).orElse(null);
+        Book book =bookRepo.findById(1L).orElse(null);
         return book;
     }
 
+
+
+
+    @Override
     @Transactional
     public Book createBook(BookDTO dto) {
         Library library=libraryRepo.findById(dto.getLibraryId()).orElseThrow(()->new RuntimeException("library not found"));
@@ -62,6 +73,7 @@ public class BookService {
         book.setTitle(dto.getTitle());
         book.setIsbn(dto.getIsbn());
         book.setLibrary(library);
+        book.setAvailable(true);
 
         return bookRepo.save(book);
     }

@@ -1,6 +1,7 @@
 package com.example.entites;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,8 +28,9 @@ public class Book {
     private String isbn;
     private LocalDateTime publishAt;
 
-    @OneToOne
-    @JoinColumn(name = "libraryId")
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "library_id")
     private Library library;
 
     @ManyToMany
@@ -43,8 +45,7 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BorrowRecord> borrowRecords ;
 
-    public void setTitle(String title) {
-    }
+
 }
 
 

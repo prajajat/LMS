@@ -3,10 +3,16 @@ package com.example.entites;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
-
+@Getter
+@Setter
+@Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "librarys")
@@ -23,7 +29,7 @@ public class Library {
 
 
     @OneToMany(mappedBy = "library", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Book> books ;
+    private Set<Book> books =new HashSet<>() ;
 
 //    public Long getId() {
 //        return id;

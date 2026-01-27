@@ -6,4 +6,9 @@ public class StatusType {
         BORROWED,
         RETURNED
     }
+    public enum GenderType{
+        Male,
+        Female,
+        NotToSay
+    }
 }
