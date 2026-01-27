@@ -1,5 +1,6 @@
 package com.example.services;
 
+import com.example.componets.DateUtils;
 import com.example.dtos.BookDTO;
 import com.example.entites.Book;
 import com.example.entites.Library;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookService {
     private final BookRepo bookRepo;
-    private LibraryRepo libraryRepo;
+
     @PersistenceContext
     private EntityManager entityManager;
     @Autowired
@@ -31,6 +32,9 @@ public class BookService {
         this.libraryRepo=libraryRepo;
     }
     @Autowired
+    private LibraryRepo libraryRepo;
+    @Autowired
+    private DateUtils dateUtils;
 
     public Page<Book> getAllBooks (int page, int size, String sortBy, String direction) {
         Sort sort = direction.equalsIgnoreCase("desc")
