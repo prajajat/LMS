@@ -2,6 +2,7 @@ package com.example.services;
 
 import com.example.componets.DateUtils;
 import com.example.dtos.BookDTO;
+import com.example.dtos.FilterDTO;
 import com.example.entites.Book;
 import com.example.entites.Library;
 import com.example.repos.BookRepo;
@@ -11,12 +12,16 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -61,4 +66,10 @@ public class BookService {
         return bookRepo.save(book);
     }
 
+   public List<Book> getFilteredBook(FilterDTO filterDTO) {
+       Specification<Book> spec = com.example.BookSpecs.withParams(filterDTO);
+       List<Book> filteredBooks = bookRepo.findAll((Sort) spec);
+       return filteredBooks;
+
+   }
 }
