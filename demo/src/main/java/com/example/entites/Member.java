@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.example.entites;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -9,14 +9,19 @@ import java.util.List;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
-@Table(name = "authors")
-public class Author {
+@Table(name = "member")
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String email;
     private String name;
+    private LocalDateTime membershipDate;
 
-    @ManyToMany(mappedBy = "authors")
-    private List<Book> books;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<BorrowRecord> borrowRecords ;
+
+    @OneToOne(mappedBy = "member",cascade = CascadeType.ALL)
+    private MemberProfile memberProfile;
 }
